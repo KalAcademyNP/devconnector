@@ -1,8 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');const posts = require('./routes/api/posts');
+const profile = require('./routes/api/profile');
+const posts = require('./routes/api/posts');
 
 const app = express();
 
@@ -20,13 +22,16 @@ mongoose
 .then(() => console.log('MongoDb connected.'))
 .catch(err => console.log(err));
 
-//Let's write out first route
-app.get('/', (req, res) => res.send('Hello'));
+//passport middleware
+app.use(passport.initialize());
+
+//Passport config
+require('./config/passport')(passport);
 
 //Use routes
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
-const port = 5000;
+const port = 5010;
 app.listen(port, ()=> console.log(`server is running on port ${port}`));
