@@ -240,6 +240,7 @@ router.delete(
   '/experience/:exp_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    let errors = {};
     Profile.findOne({ user: req.user.id })
       .then(profile => {
         // Get remove index
@@ -247,6 +248,11 @@ router.delete(
           .map(item => item.id)
           .indexOf(req.params.exp_id);
 
+        if (removeIndex === -1) {
+          errors.experiencenotfound = 'Experience not found';
+          // Return any errors with 404 status
+          return res.status(404).json(errors);         
+        }
         // Splice out of array
         profile.experience.splice(removeIndex, 1);
 
