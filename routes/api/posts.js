@@ -8,6 +8,8 @@ const Post = require('../../models/Post');
 // Profile model
 const Profile = require('../../models/Profile');
 
+// Validation
+const validatePostInput = require('../../validation/post');
 // @route   GET api/posts
 // @desc    Get posts
 // @access  Public
